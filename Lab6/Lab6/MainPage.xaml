@@ -1,0 +1,60 @@
+﻿<Page
+    x:Class="Lab6.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Lab6"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:data="using:Lab6.ViewModels"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <Style TargetType="TextBlock" x:Key="MainTextBlockStyle">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="ForecastTextBlockStyle">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="MaxWidth" Value="200"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
+    </Page.Resources>
+
+    <StackPanel Background="LightBlue">
+        <StackPanel VerticalAlignment="Center">
+            <AutoSuggestBox Name="LocationAutoSuggestBox" HorizontalAlignment="Center"
+                            QueryIcon="Find" PlaceholderText="Enter Location..." Width="300"
+                            TextChanged="LocationAutoSuggestBox_TextChanged"
+                            QuerySubmitted="LocationAutoSuggestBox_QuerySubmitted"/>
+            <Image Name="ResultImage" Width="200" Height="200" HorizontalAlignment="Center">
+                <Image.Source>
+                    <BitmapImage UriSource="{x:Bind ViewModel.ImageUrl, Mode=OneWay}"/>
+                </Image.Source>
+            </Image>
+            <TextBlock Name="TemperatureTextBlock" Text="{x:Bind ViewModel.Temperature, Mode=OneWay}"
+                       FontSize="52" Style="{StaticResource MainTextBlockStyle}"/>
+            <TextBlock Name="DescriptionTextBlock" Text="{x:Bind ViewModel.Description, Mode=OneWay}"
+                       FontSize="36" Style="{StaticResource MainTextBlockStyle}"/>
+            <TextBlock Name="LocationNameTextBlock" Text="{x:Bind ViewModel.LocationName, Mode=OneWay}"
+                       FontSize="24" Style="{StaticResource MainTextBlockStyle}"/>
+        </StackPanel>
+        <GridView ItemsSource="{x:Bind ViewModel.Forecast}" HorizontalAlignment="Center">
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="data:ForecastDayViewModel">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Name="ForecastDateTextBlock" Text="{x:Bind Date, Mode=OneWay}" Style="{StaticResource ForecastTextBlockStyle}"/>
+                        <TextBlock Name="ForecastTempsTextBlock" Text="{x:Bind TempRange, Mode=OneWay}" Style="{StaticResource ForecastTextBlockStyle}"/>
+                        <Image Name="ForecastResultImage" Width="200" Height="200" HorizontalAlignment="Center">
+                            <Image.Source>
+                                <BitmapImage UriSource="{x:Bind ImageUrl, Mode=OneWay}"/>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Name="ForecastWeatherTextBlock" Text="{x:Bind Weather, Mode=OneWay}" Style="{StaticResource ForecastTextBlockStyle}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+    </StackPanel>
+    
+</Page>
